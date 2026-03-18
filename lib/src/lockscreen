@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LockScreen extends StatefulWidget {
+  const LockScreen({super.key});
+
+  @override
+  State<LockScreen> createState() => _LockScreenState();
+}
+
+class _LockScreenState extends State<LockScreen> {
+  final LocalAuthentication auth = LocalAuthentication();
+  String savedPin = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadPin();
+
+    /// ✅ Safe biometric call
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkBiometric();
+    });
+  }
+
+  Future<void> loadPin() async {
+    final prefs = await SharedPreferences.getInstance();
+    savedPin = prefs.getString("pin") ?? "1234";
+  }
+
+  Future<void> checkBiometric() async {
+    try {
+      bool canCheck = await auth.canCheckBiometrics;
+
+      if (!canCheck) return;
+
+      bool authenticated = await auth.authenticate(
+        localizedReason: 'Unlock your app',
+        biometricOnly: true,
+      );
+
+      if (authenticated) {
+        goToHome();
+      }
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  void goToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+    );
+  }
+
+  void verifyPin(String pin) {
+    if (pin == savedPin) {
+      goToHome();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Wrong PIN ❌")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Enter PIN"),
+            const SizedBox(height: 20),
+
+            /// 🔢 PIN INPUT
+            Pinput(
+              length: 4,
+              onCompleted: verifyPin,
+            ),
+
+            const SizedBox(height: 20),
+
+            /// 👆 Fingerprint
+            IconButton(
+              onPressed: checkBiometric,
+              icon: const Icon(Icons.fingerprint, size: 40),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// ✅ Dummy Home Screen
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Home")),
+      body: const Center(child: Text("Unlocked ✅")),
+    );
+  }
+}
