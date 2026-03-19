@@ -6,21 +6,18 @@ A lightweight Flutter package for implementing **PIN-based and Biometric (Finger
 
 ## ✨ Features
 
-* 🔢 Secure PIN (Passcode) unlock
-* 👆 Fingerprint 
-* 🔐 Local PIN storage using SharedPreferences
-* ⚡ Smooth and minimal UI
-* 🔁 Auto biometric prompt
-* ❌ Error handling (no biometrics / wrong PIN)
+- 🔢 Secure PIN (Passcode) unlock
+- 👆 Fingerprint
+- 🔐 Local PIN storage using SharedPreferences
+- ⚡ Smooth and minimal UI
+- 🔁 Auto biometric prompt
+- ❌ Error handling (no biometrics / wrong PIN)
 
 ---
+
 ### preview
 
-
-
 https://github.com/user-attachments/assets/559cc760-9122-40d6-bd84-53a61a3697dc
-
-
 
 ## 📦 Installation
 
@@ -65,12 +62,12 @@ MaterialApp(
 
 ## 📱 How It Works
 
-* App opens → Lock screen appears
-* User can:
+- App opens → Lock screen appears
+- User can:
+  - Enter PIN 🔢
+  - Use Fingerprint 👆
 
-  * Enter PIN 🔢
-  * Use Fingerprint 👆
-* On success → Navigate to next screen
+- On success → Navigate to next screen
 
 ---
 
@@ -98,10 +95,9 @@ class MainActivity: FlutterFragmentActivity() {
 
 ## ⚠️ Requirements
 
-* Device must have:
-
-  * Fingerprint 
-  * Screen lock enabled
+- Device must have:
+  - Fingerprint
+  - Screen lock enabled
 
 ---
 
@@ -109,9 +105,9 @@ class MainActivity: FlutterFragmentActivity() {
 
 Handled cases:
 
-* ❌ No biometrics enrolled
-* ❌ Wrong PIN
-* ❌ Biometric not available
+- ❌ No biometrics enrolled
+- ❌ Wrong PIN
+- ❌ Biometric not available
 
 ---
 
@@ -138,4 +134,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
